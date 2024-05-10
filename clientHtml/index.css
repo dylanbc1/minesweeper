@@ -1,35 +1,52 @@
-.grid {
+.grid_mine {
     display: grid;
-    grid-template-columns: repeat(8, 100px); /* 8 columnas */
-    grid-template-rows: repeat(8, 100px); /* 8 filas */
-    gap: 5px;
-    padding: 3%;
+    grid-template-columns: repeat(8, 50px); /* 8 columnas */
+    grid-template-rows: repeat(8, 50px); /* 8 filas */
+    gap: 5.4px;
 }
 
-.cell {
+.cell_one {
+    color: blue;
+}
+
+.cell_two {
+    color: red;
+}
+
+.cell_three {
+    color: green;
+}
+
+.cell_four {
+    color: purple;
+}
+
+.cell_one {
+    color: blue;
+}
+
+.cell_mine {
     background-color: lightgray;
-    border: 1px solid gray;
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 24px;
-    cursor: pointer; /* Hace que el cursor cambie al pasar por encima */
+    cursor: pointer;
 }
-
 
 body {
     font-family: Arial, sans-serif;
     text-align: center;
 }
 
-.cell {
+.cell_mine {
+    border-radius: 5px;
     background-color: #ccc;
     padding: 20px;
-    border: 1px solid #666;
     cursor: pointer;
 }
 
-.cell:hover {
+.cell_mine:hover {
     background-color: #aaa;
 }
 

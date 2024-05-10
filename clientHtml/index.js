@@ -9,14 +9,14 @@ const start = document.querySelector("#start");
 
 
  async function initProcess(){
-
+    let mines = 0;
     const hostname = document.location.hostname || "127.0.0.1";
     const proxy = communicator.stringToProxy(`LandMines:ws -h ${hostname} -p 10000`);
 
     const printer = await services.BoardSericesPrx.checkedCast(proxy);
 
     // Seleccionar todas las celdas
-    const cells = document.querySelectorAll('.cell');
+    const cells = document.querySelectorAll('.cell_mine');
 
     // event listener a cada celda
     cells.forEach(cell => {
@@ -37,6 +37,7 @@ const start = document.querySelector("#start");
                 await printer.selectCell(cellRow, cellColumn);
             
                 let anse = await printer.printBoard();
+                countMines(anse);
                 boardManagement(anse);
             } catch (error) {
                 const cellId = `${cellRow}_${cellColumn}`;
@@ -44,15 +45,7 @@ const start = document.querySelector("#start");
                 cell.textContent = 'P'
                 window.alert("¡Has Perdido! :(");
                 
-                // reiniciamos la tabla
-                for (let i = 0; i < 8; i++) {
-                    for (let j = 0; j < 8; j++) {
-                        const cellId = `${i}_${j}`;
-                        const cell = document.getElementById(cellId);
-
-                        cell.textContent = '';
-                    }
-                }
+                restartBoard();
             }
         } catch (error) {
             output.textContent = error;
@@ -60,11 +53,38 @@ const start = document.querySelector("#start");
         setState(State.Idle);
     }
 
+    function restartBoard() {
+        // reiniciamos la tabla
+        for (let i = 0; i < 8; i++) {
+            for (let j = 0; j < 8; j++) {
+                const cellId = `${i}_${j}`;
+                const cell = document.getElementById(cellId);
+
+                cell.textContent = '';
+            }
+        }
+    }
+
+    async function countMines(board) {
+        mines = 0;
+
+        board.forEach(fila => {
+            fila.forEach(celda => {
+                if (celda.isLandMine) {
+                    mines += 1;
+                }
+            })
+        })
+
+        return mines;
+    }
+
     // consultar anse -> board luego de click
     async function boardManagement(board) {
         let row = 0;
         let column = 0;
-        
+        let counterNoMines = 0;
+
             // matriz -> contiene array de arrays
             // el array (fila) contiene cada celda aumentando por columnas
             // cada celda tiene hide (b), isLandMine (b),
@@ -79,7 +99,18 @@ const start = document.querySelector("#start");
 
                     // rellenamos celdas
                     if (!celda.hide) {
+                        counterNoMines += 1;
                         cell.textContent = celda.value;
+
+                        if (celda.value == 1){
+                            cell.classList.add("cell_one");
+                        } else if (celda.value == 2) {
+                            cell.classList.add("cell_two");
+                        } else if (celda.value == 3) {
+                            cell.classList.add("cell_three");
+                        } else if (celda.value == 4) {
+                            cell.classList.add("cell_four");
+                        }
                     }
 
                     if (column == 7) {
@@ -90,6 +121,11 @@ const start = document.querySelector("#start");
                     }
                 })
             });
+
+            if (64 - mines == counterNoMines) {
+                window.alert("¡¡¡HAS GANADO!!! :D");
+                restartBoard();
+            }
     }
 
     // send command -> por escrito al backend
