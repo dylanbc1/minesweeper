@@ -1,0 +1,16 @@
+<state>
+  <timestamp value='1715312398509' />
+  <sourceSet name='default'>
+    <source name='C:\Users\Dylan\Desktop\DM11\Universidad\landMines\src\main\slice\Mines.ice'>
+      <file name='C:\Users\Dylan\Desktop\DM11\Universidad\landMines\build\generated-src\co\icesi\buscaminas\services\_Marker.java' />
+      <file name='C:\Users\Dylan\Desktop\DM11\Universidad\landMines\build\generated-src\co\icesi\buscaminas\services\Cell.java' />
+      <file name='C:\Users\Dylan\Desktop\DM11\Universidad\landMines\build\generated-src\co\icesi\buscaminas\services\BoardSerices.java' />
+      <file name='C:\Users\Dylan\Desktop\DM11\Universidad\landMines\build\generated-src\co\icesi\buscaminas\services\CellVectHelper.java' />
+      <file name='C:\Users\Dylan\Desktop\DM11\Universidad\landMines\build\generated-src\co\icesi\buscaminas\services\CellMatHelper.java' />
+      <file name='C:\Users\Dylan\Desktop\DM11\Universidad\landMines\build\generated-src\co\icesi\buscaminas\services\BoardSericesPrx.java' />
+      <file name='C:\Users\Dylan\Desktop\DM11\Universidad\landMines\build\generated-src\co\icesi\buscaminas\services\_BoardSericesPrxI.java' />
+    </source>
+    <arg value='C:\Program Files\ZeroC\Ice-3.7.9\\bin\slice2java.exe' />
+    <arg value='-IC:\Program Files\ZeroC\Ice-3.7.9\\slice' />
+  </sourceSet>
+</state>

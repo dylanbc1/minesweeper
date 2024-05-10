@@ -1,0 +1,67 @@
+.grid {
+    display: grid;
+    grid-template-columns: repeat(8, 100px); /* 8 columnas */
+    grid-template-rows: repeat(8, 100px); /* 8 filas */
+    gap: 5px;
+    padding: 3%;
+}
+
+.cell {
+    background-color: lightgray;
+    border: 1px solid gray;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    cursor: pointer; /* Hace que el cursor cambie al pasar por encima */
+}
+
+
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+.cell {
+    background-color: #ccc;
+    padding: 20px;
+    border: 1px solid #666;
+    cursor: pointer;
+}
+
+.cell:hover {
+    background-color: #aaa;
+}
+
+#output {
+    margin-top: 20px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+#progress {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 20px;
+    border: 1px solid #666;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+#progress img {
+    width: 50px;
+    height: 50px;
+    margin: 20px auto;
+}
+
+.hide {
+    display: none;
+}
+
+.waiting {
+    cursor: wait;
+}
