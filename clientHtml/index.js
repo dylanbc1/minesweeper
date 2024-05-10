@@ -53,7 +53,7 @@ const start = document.querySelector("#start");
             } catch (error) {
                 console.log(error)
                 window.alert("¡Has Perdido! :(");
-                restartBoard();
+                await restartBoard();
             }
         } catch (error) {
             output.textContent = error;
@@ -61,7 +61,7 @@ const start = document.querySelector("#start");
         setState(State.Idle);
     }
 
-    function restartBoard() {
+    async function restartBoard() {
         // reiniciamos la tabla
         for (let i = 0; i < 8; i++) {
             for (let j = 0; j < 8; j++) {
@@ -78,22 +78,9 @@ const start = document.querySelector("#start");
                 classList.remove('cell_four');
             }
         }
+
+        mines = await printer.initGame(8, 8, 10);
     }
-
-    /*
-    async function countMines(board) {
-        mines = 0;
-
-        board.forEach(fila => {
-            fila.forEach(celda => {
-                if (celda.isLandMine) {
-                    mines += 1;
-                }
-            })
-        })
-
-        return mines;
-    }*/
 
     // consultar anse -> board luego de click
     async function boardManagement(board) {
@@ -145,7 +132,7 @@ const start = document.querySelector("#start");
 
             if (64 - mines == counterNoMines) {
                 window.alert("¡¡¡HAS GANADO!!! :D");
-                restartBoard();
+                await restartBoard();
             }
     }
 
@@ -175,34 +162,6 @@ const start = document.querySelector("#start");
         mines = await printer.initGame(8, 8, 10);
         output.textContent = "Game started with: " + mines;
         setState(State.Idle);
-
-        const gameBoard = document.getElementById("game-board");
-        for (let i = 0; i < 8; i++) {
-            for (let j = 0; j < 8; j++) {
-                const cell = document.createElement("div");
-                cell.className = "cell";
-                cell.dataset.row = i;
-                cell.dataset.col = j;
-                cell.textContent = "";
-                gameBoard.appendChild(cell);
-
-                (function(cell, i, j) {
-                    cell.addEventListener("click", async () => {
-                        try {
-                            const anse = await printer.selectCell(i, j);
-                            if (anse[i][j] === "X") {
-                                output.textContent = "Game over";
-                            } else {
-                                cell.textContent = anse[i][j];
-                                cell.style.backgroundColor = "green"; 
-                            }
-                        } catch (error) {
-                            output.textContent = error;
-                        }
-                    });
-                })(cell, i, j);
-            }
-        }
     }
 
     print.addEventListener("click", sendCommand);
