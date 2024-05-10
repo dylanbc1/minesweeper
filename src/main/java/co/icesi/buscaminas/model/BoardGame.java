@@ -1,6 +1,5 @@
 package co.icesi.buscaminas.model;
 
-import java.util.Arrays;
 import java.util.Random;
 
 public class BoardGame {

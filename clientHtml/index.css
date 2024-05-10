@@ -21,8 +21,9 @@
     color: purple;
 }
 
-.cell_one {
-    color: blue;
+.bomb {
+    color: #642424;
+    font-weight: bold;
 }
 
 .cell_mine {

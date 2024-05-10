@@ -9,7 +9,6 @@ const start = document.querySelector("#start");
 
 
  async function initProcess(){
-    let mines = 0;
     const hostname = document.location.hostname || "127.0.0.1";
     const proxy = communicator.stringToProxy(`LandMines:ws -h ${hostname} -p 10000`);
 
@@ -23,7 +22,20 @@ const start = document.querySelector("#start");
         cell.addEventListener('click', () => {
             clickOnCell(cell);
         });
+
+        // Agregar un event listener para el click derecho
+        cell.addEventListener('contextmenu', (event) => {
+            // Prevenir el comportamiento por defecto del menú contextual
+            event.preventDefault();
+            addFlag(cell);
+        });
     });
+
+    // añadir flag de bomba
+    function addFlag(cell) {
+        cell.textContent = 'B';
+        cell.classList.add('bomb');
+    }
 
     // manejar las celdas
     async function clickOnCell(cell) {
@@ -37,14 +49,10 @@ const start = document.querySelector("#start");
                 await printer.selectCell(cellRow, cellColumn);
             
                 let anse = await printer.printBoard();
-                countMines(anse);
                 boardManagement(anse);
             } catch (error) {
-                const cellId = `${cellRow}_${cellColumn}`;
-                const cell = document.getElementById(cellId);
-                cell.textContent = 'P'
+                console.log(error)
                 window.alert("¡Has Perdido! :(");
-                
                 restartBoard();
             }
         } catch (error) {
@@ -61,10 +69,18 @@ const start = document.querySelector("#start");
                 const cell = document.getElementById(cellId);
 
                 cell.textContent = '';
+                const classList = cell.classList;
+
+                classList.remove('bomb');
+                classList.remove('cell_one');
+                classList.remove('cell_two');
+                classList.remove('cell_three');
+                classList.remove('cell_four');
             }
         }
     }
 
+    /*
     async function countMines(board) {
         mines = 0;
 
@@ -77,7 +93,7 @@ const start = document.querySelector("#start");
         })
 
         return mines;
-    }
+    }*/
 
     // consultar anse -> board luego de click
     async function boardManagement(board) {
@@ -101,15 +117,20 @@ const start = document.querySelector("#start");
                     if (!celda.hide) {
                         counterNoMines += 1;
                         cell.textContent = celda.value;
+                        let classList = cell.classList;
 
                         if (celda.value == 1){
-                            cell.classList.add("cell_one");
+                            classList.add("cell_one");
                         } else if (celda.value == 2) {
-                            cell.classList.add("cell_two");
+                            classList.add("cell_two");
                         } else if (celda.value == 3) {
-                            cell.classList.add("cell_three");
+                            classList.add("cell_three");
                         } else if (celda.value == 4) {
-                            cell.classList.add("cell_four");
+                            classList.add("cell_four");
+                        }
+
+                        if(classList.contains('bomb')){
+                            classList.remove('bomb');
                         }
                     }
 
@@ -151,7 +172,7 @@ const start = document.querySelector("#start");
     // iniciar juego
     async function startGame() {
         setState(State.Busy);
-        const mines = await printer.initGame(8, 8, 10);
+        mines = await printer.initGame(8, 8, 10);
         output.textContent = "Game started with: " + mines;
         setState(State.Idle);
 
